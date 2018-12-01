@@ -8,6 +8,7 @@ import BaseLayout from "./components/BaseLayout";
 import Home from "./components/Home";
 import AddBook from "./components/AddBook";
 import Register from "./components/Register";
+import Login from "./components/Login";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Route path="/addbook" component={AddBook} />
         <Route exact path="/" component={Home} />
         <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
       </Switch>
     </BaseLayout>
   </BrowserRouter>,

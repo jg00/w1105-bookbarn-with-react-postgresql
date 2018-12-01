@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import "./Footer.css";
 
 export class Footer extends Component {
   render() {
     return (
       <div>
-        <h5>Footer</h5>
+        <div className="div-footer div-container-all">
+          <div>Footer</div>
+        </div>
       </div>
     );
   }

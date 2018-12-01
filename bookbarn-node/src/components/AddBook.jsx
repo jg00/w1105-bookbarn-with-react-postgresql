@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./AddBook.css";
 import axios from "axios";
+import { setAuthenticationToken } from "../utils";
 const ADD_BOOK_URL = "http://localhost:3001/api/books/add";
 
 class AddBook extends Component {
@@ -23,18 +24,23 @@ class AddBook extends Component {
     });
   };
 
-  handleAddMovieButtonClick = () => {
+  handleAddBookButtonClick = () => {
     // console.log("button", this);
     // console.log(this.state.book);
 
     let book = this.state.book;
     // console.log(book);
 
+    const token = localStorage.getItem("jsonwebtoken");
+    // console.log("From LocalStorage:", token);
+    // put the token in the request header
+    setAuthenticationToken(token);
+
     axios
       .post(ADD_BOOK_URL, book)
       .then(response => {
         // console.log(response);
-        console.log(response.data);
+        console.log("Book added: ", response.data);
         this.props.history.push("/");
       })
       .catch(rejected => {
@@ -59,7 +65,7 @@ class AddBook extends Component {
             name="genre"
             onChange={this.handleTextBoxOnChange}
           />
-          <button onClick={this.handleAddMovieButtonClick}>Add Movie</button>
+          <button onClick={this.handleAddBookButtonClick}>Add Book</button>
         </div>
       </div>
     );

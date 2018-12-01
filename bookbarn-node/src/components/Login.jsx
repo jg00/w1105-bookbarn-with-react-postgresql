@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import "./Register.css";
+import "./Login.css";
 import axios from "axios";
-const REGISTER_URL = "http://localhost:3001/api/user/register";
+import { setAuthenticationToken } from "../utils";
+const LOGIN_URL = "http://localhost:3001/api/user/login";
 
-class Register extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -16,28 +17,34 @@ class Register extends Component {
     let user = { ...this.state.user };
     user[e.target.name] = e.target.value;
     this.setState({ user });
-    // console.log(user);
   };
 
-  handleRegisterButtonClick = () => {
+  handleLoginButtonClick = e => {
     let user = this.state.user;
-    console.log(user);
 
     axios
-      .post(REGISTER_URL, user)
+      .post(LOGIN_URL, user)
       .then(response => {
-        console.log(response.data);
+        console.log("login call response: ", response);
+
+        // save the token so we can access it later on
+        // local storage
+        localStorage.setItem("jsonwebtoken", response.data.token);
+        // put the token in the request header
+        setAuthenticationToken(response.data.token);
+
+        // console.log(response.data.token);
       })
       .catch(rejected => {
-        console.log("Register user connection error: ", rejected);
+        console.log("Login user connection error: ", rejected);
       });
   };
 
   render() {
     return (
       <div>
-        <div className="div-register div-container-all">
-          <h5>Register</h5>
+        <div className="div-login div-container-all">
+          <h5>Login</h5>
           <input
             type="text"
             placeholder="Username"
@@ -50,13 +57,11 @@ class Register extends Component {
             name="password"
             onChange={this.handleTextBoxOnChange}
           />
-          <button onClick={this.handleRegisterButtonClick}>
-            Register User
-          </button>
+          <button onClick={this.handleLoginButtonClick}>Login</button>
         </div>
       </div>
     );
   }
 }
 
-export default Register;
+export default Login;
